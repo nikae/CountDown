@@ -11,15 +11,23 @@ import Foundation
 
 class ViewController: UIViewController {
     
-    
-    var timerCount = 3
+    var timerCount = 0
     var timerRunning = false
-    var timer = Timer()
     
-    @IBOutlet weak var timerLabel: UILabel!
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var timerLabel: UILabel! //ADD Label
+    @IBOutlet weak var textField: UITextField! //Add TextFiled /Enter any number to Countdown
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //Reset
+        timerLabel.text = ""
+        if timerCount == 0 {
+            timerRunning = false
+        }
+}
     
+       //Figure out Count method
     func Counting() {
         if timerCount > 0 {
         timerLabel.text = "\(timerCount)"
@@ -31,54 +39,43 @@ class ViewController: UIViewController {
         
     }
     
-    
-
-    
+    //ADD Action Button
     @IBAction func startButton(sender: UIButton) {
+        
+        //Figure out timer
         if timerRunning == false {
-            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ViewController.Counting), userInfo: nil, repeats: true)
+         _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ViewController.Counting), userInfo: nil, repeats: true)
             timerRunning = true
         }
-  //unwrap textField
-     
+        
+        //unwrap textField and Display result
         if let countebleNumber = Int(textField.text!) {
             timerCount = countebleNumber
-            textField.text = ""
+            textField.text = "" //Clean Up TextField
         } else {
-            timerCount = 3
-            textField.text = ""
+            timerCount = 3 //Defoult Number to Countdown if TextField is nil
+            textField.text = "" //Clean Up TextField
         }
-        
-        
+       
     }
     
-    
-    //dismise keyBoard
-    
+    //Dismiss keyboard
     func keyboardDismiss() {
         textField.resignFirstResponder()
-    
     }
     
+    //ADD Gesture Recignizer to Dismiss keyboard then view tapped
     @IBAction func viewTapped(_ sender: AnyObject) {
         keyboardDismiss()
     }
     
+    //Dismiss keyboard using Return Key (Done) Button
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         keyboardDismiss()
         
         return true
     }
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        timerLabel.text = ""
-        // Do any additional setup after loading the view, typically from a nib.
-        if timerCount == 0 {
-            timerRunning = false
-        }
-    }
 }
 
 
